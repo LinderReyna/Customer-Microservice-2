@@ -1,0 +1,195 @@
+openapi: 3.0.0
+info:
+  title: Customer Microservice
+  description: Customer Microservice
+  version: 1.0.0
+servers:
+  - url: https://virtserver.swaggerhub.com/LINDERREYNAE/Customer-Microservice/1.0.0
+    description: SwaggerHub API Auto Mocking
+paths:
+  /customer:
+    post:
+      tags:
+        - customer
+      summary: Add a new customer to the database
+      description: Add a new customer to the database
+      operationId: save
+      requestBody:
+        description: Create a new customer in the database
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Customer'
+        required: true
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+        "405":
+          description: Invalid input
+  /customer/{id}:
+    put:
+      tags:
+        - customer
+      summary: Update an existing customer
+      description: Update an existing customer by Id
+      operationId: update
+      parameters:
+        - name: id
+          in: path
+          description: ID of customer to update
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Update an existent customer in the database
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Customer'
+        required: true
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+        "400":
+          description: Invalid ID supplied
+        "404":
+          description: Customer not found
+        "405":
+          description: Validation exception
+    get:
+      tags:
+        - customer
+      summary: Find customer by ID
+      description: Returns a single customer
+      operationId: findById
+      parameters:
+        - name: id
+          in: path
+          description: ID of customer to return
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Customer'
+        "400":
+          description: Invalid ID supplied
+        "404":
+          description: Customer not found
+    delete:
+      tags:
+        - customer
+      summary: Delete a customer
+      description: delete a customer
+      operationId: delete
+      parameters:
+        - name: id
+          in: path
+          description: Customer id to delete
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+      responses:
+        "400":
+          description: Invalid customer value
+  /customer/document/{document}:
+    get:
+      tags:
+        - customer
+      summary: Find customer by document
+      description: Returns a single customer
+      operationId: findByDocument
+      parameters:
+        - name: document
+          in: path
+          description: document of customer to return
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+        "400":
+          description: Invalid document supplied
+        "404":
+          description: Customer not found
+components:
+  schemas:
+    Customer:
+      required:
+        - type
+        - document
+        - name
+        - email
+        - phone
+      type: object
+      properties:
+        id:
+          type: string
+          readOnly: true
+        type:
+          type: string
+          description: Customer type
+          enum:
+            - personal
+            - business
+        document:
+          type: string
+          description: DNI / RUC
+          minimum: 8
+          maximum: 11
+          example: "70000000"
+        name:
+          type: string
+          description: Name
+          example: Linder Jossemar Reyna Esquivel
+        email:
+          type: string
+          description: Email
+          pattern: '[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$'
+          x-pattern-message: "invalid Email"
+          example: linder_reynae@hotmail.com
+        phone:
+          type: string
+          description: Phone
+          pattern: '(\+51|51|)[0-9]+'
+          x-pattern-message: "invalid Phone"
+          example: "+51940000000"
+        createdAt:
+          type: string
+          format: date-time
+          description: Creation date
+          example: "2022-10-27T20:30:00Z"
+          readOnly: true
+  requestBodies:
+    customer:
+      description: customer object that needs to be added to the database
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Customer'
