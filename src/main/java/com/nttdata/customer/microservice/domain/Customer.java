@@ -14,9 +14,9 @@ public class Customer {
     @Id
     private String id;
     private String type;
+    @Indexed(unique = true)
     private String document;
     private String name;
-    @Indexed(unique = true)
     private String email;
     private String phone;
     @CreatedDate
