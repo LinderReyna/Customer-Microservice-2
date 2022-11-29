@@ -1,5 +1,6 @@
 package com.nttdata.customer.microservice.service;
 
+import com.nttdata.customer.microservice.exception.InvalidDataException;
 import com.nttdata.customer.microservice.mapper.CustomerMapper;
 import com.nttdata.customer.microservice.model.Customer;
 import com.nttdata.customer.microservice.repository.CustomerRepository;
@@ -21,9 +22,24 @@ public class CustomerServiceImpl implements CustomerService{
 
     @Override
     public Mono<Customer> save(Mono<Customer> customer) {
-        return customer.map(mapper::toDocument)
+        return customer.map(this::validation)
+                .map(mapper::toDocument)
                 .flatMap(repository::save)
                 .map(mapper::toModel);
+    }
+
+    private Customer validation(Customer c) {
+        if (c.getType() == Customer.TypeEnum.PERSONAL){
+            c.setBusiness(null);
+            if (c.getPersonal() == null)
+                throw new InvalidDataException("Personal must not be null");
+        }
+        else if (c.getType() == Customer.TypeEnum.BUSINESS){
+            c.setPersonal(null);
+            if (c.getBusiness() == null)
+                throw new InvalidDataException("Business must not be null");
+        }
+        return c;
     }
 
     @Override
@@ -34,7 +50,7 @@ public class CustomerServiceImpl implements CustomerService{
 
     @Override
     public Mono<Customer> findByDocument(String document) {
-        return repository.findByDocument(document)
+        return repository.findFirstByPersonal_DocumentNumberOrBusiness_Ruc(Mono.just(document), Mono.just(document))
                 .map(mapper::toModel);
     }
 

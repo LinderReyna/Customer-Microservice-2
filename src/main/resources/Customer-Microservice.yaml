@@ -86,9 +86,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Customer'
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/Customer'
         "400":
           description: Invalid ID supplied
         "404":
@@ -140,11 +137,72 @@ paths:
           description: Customer not found
 components:
   schemas:
+    Personal:
+      required:
+        - names
+        - fatherLastName
+        - motherLastName
+        - documentType
+        - documentNumber
+      type: object
+      properties:
+        names:
+          type: string
+          description: Names
+          pattern: '^(?=.{3,15}$)[A-ZÁÉÍÓÚ][a-zñáéíóú]+(?: [A-ZÁÉÍÓÚ][a-zñáéíóú]+)?$'
+          x-pattern-message: "invalid Names"
+          example: Linder Jossemar
+        fatherLastName:
+          type: string
+          description: Father last name
+          pattern: '^(?=.{3,15}$)[A-ZÁÉÍÓÚ][a-zñáéíóú]+(?: [A-ZÁÉÍÓÚ][a-zñáéíóú]+)?$'
+          x-pattern-message: "invalid fatherLastName"
+          example: Reyna
+        motherLastName:
+          type: string
+          description: Mother last name
+          pattern: '^(?=.{3,15}$)[A-ZÁÉÍÓÚ][a-zñáéíóú]+(?: [A-ZÁÉÍÓÚ][a-zñáéíóú]+)?$'
+          x-pattern-message: "invalid motherLastName"
+          example: Esquivel
+        documentType:
+          type: string
+          description: Document type
+          enum:
+            - DNI
+            - CE
+        documentNumber:
+          type: string
+          description: Document number
+          minimum: 8
+          maximum: 9
+          pattern: '[0-9]{8,9}'
+          x-pattern-message: "invalid document number"
+          example: "70000000"
+    Business:
+      required:
+        - legalName
+        - fullName
+      type: object
+      properties:
+        legalName:
+          type: string
+          description: Name
+          example: Jossemar SAC
+        fullName:
+          type: string
+          description: Name
+          example: Jossemar Constructores
+        ruc:
+          type: string
+          description: RUC
+          minimum: 11
+          maximum: 11
+          pattern: '[0-9]{11}'
+          x-pattern-message: "invalid ruc"
+          example: "10000000000"
     Customer:
       required:
         - type
-        - document
-        - name
         - email
         - phone
       type: object
@@ -158,16 +216,10 @@ components:
           enum:
             - personal
             - business
-        document:
-          type: string
-          description: DNI / RUC
-          minimum: 8
-          maximum: 11
-          example: "70000000"
-        name:
-          type: string
-          description: Name
-          example: Linder Jossemar Reyna Esquivel
+        personal:
+          $ref: '#/components/schemas/Personal'
+        business:
+          $ref: '#/components/schemas/Business'
         email:
           type: string
           description: Email
