@@ -35,7 +35,6 @@ public class CustomerServiceImpl implements CustomerService{
                 throw new InvalidDataException("Personal must not be null");
         }
         else if (c.getType() == Customer.TypeEnum.BUSINESS){
-            c.setPersonal(null);
             if (c.getBusiness() == null)
                 throw new InvalidDataException("Business must not be null");
         }
