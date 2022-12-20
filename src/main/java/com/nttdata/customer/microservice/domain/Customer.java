@@ -7,7 +7,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.time.OffsetDateTime;
+import java.time.Instant;
 
 @Data
 @Document
@@ -21,7 +21,7 @@ public class Customer {
     private String email;
     private String phone;
     @CreatedDate
-    private OffsetDateTime createdAt;
+    private Instant createdAt;
     @LastModifiedDate
-    private OffsetDateTime updatedAt;
+    private Instant updatedAt;
 }

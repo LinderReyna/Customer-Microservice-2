@@ -236,7 +236,13 @@ components:
           type: string
           format: date-time
           description: Creation date
-          example: "2022-10-27T20:30:00Z"
+          example: "2022-11-30T20:30:00Z"
+          readOnly: true
+        updatedAt:
+          type: string
+          format: date-time
+          description: Updated date
+          example: "2022-11-30T20:30:00Z"
           readOnly: true
   requestBodies:
     customer:
