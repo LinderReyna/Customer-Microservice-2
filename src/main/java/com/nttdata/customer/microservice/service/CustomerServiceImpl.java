@@ -56,7 +56,7 @@ public class CustomerServiceImpl implements CustomerService{
     @Override
     public Mono<Customer> update(Mono<Customer> customer, String id) {
         return save(findById(id)
-                .flatMap(c -> customer)
+                .flatMap(c -> customer.doOnNext(x -> x.setCreatedAt(c.getCreatedAt())))
                 .doOnNext(e -> e.setId(id)));
     }
 
