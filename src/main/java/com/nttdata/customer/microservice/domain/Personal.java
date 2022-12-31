@@ -9,6 +9,7 @@ public class Personal {
     private String fatherLastName;
     private String motherLastName;
     private String documentType;
+    private String profile;
     @Indexed(unique = true, sparse = true)
     private String documentNumber;
 }

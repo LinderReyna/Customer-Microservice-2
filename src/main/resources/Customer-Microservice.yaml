@@ -144,6 +144,7 @@ components:
         - motherLastName
         - documentType
         - documentNumber
+        - profile
       type: object
       properties:
         names:
@@ -178,10 +179,17 @@ components:
           pattern: '[0-9]{8,9}'
           x-pattern-message: "invalid document number"
           example: "70000000"
+        profile:
+          type: string
+          description: Profile
+          enum:
+            - Normal
+            - VIP
     Business:
       required:
         - legalName
         - fullName
+        - profile
       type: object
       properties:
         legalName:
@@ -200,6 +208,12 @@ components:
           pattern: '[0-9]{11}'
           x-pattern-message: "invalid ruc"
           example: "10000000000"
+        profile:
+          type: string
+          description: Profile
+          enum:
+            - Normal
+            - PYME
     Customer:
       required:
         - type
