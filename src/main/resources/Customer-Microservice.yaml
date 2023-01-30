@@ -135,6 +135,33 @@ paths:
           description: Invalid document supplied
         "404":
           description: Customer not found
+  /customer/phone/{phone}:
+    get:
+      tags:
+        - customer
+      summary: Find customer by phone
+      description: Returns a single customer
+      operationId: findByPhone
+      parameters:
+        - name: phone
+          in: path
+          description: phone of customer to return
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+        "400":
+          description: Invalid phone supplied
+        "404":
+          description: Customer not found
 components:
   schemas:
     Personal:
@@ -170,7 +197,8 @@ components:
           description: Document type
           enum:
             - DNI
-            - CE
+            - CEX
+            - Pasaporte
         documentNumber:
           type: string
           description: Document number
@@ -246,6 +274,11 @@ components:
           pattern: '(\+51|51|)[0-9]+'
           x-pattern-message: "invalid Phone"
           example: "+51940000000"
+        imei:
+          type: string
+          description: IMEI
+          x-pattern-message: "invalid IMEI"
+          example: "35-209900-176148-1"
         createdAt:
           type: string
           format: date-time

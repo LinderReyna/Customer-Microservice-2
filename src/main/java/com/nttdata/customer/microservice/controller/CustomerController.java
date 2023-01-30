@@ -53,4 +53,11 @@ public class CustomerController implements CustomerApi {
                 .map(ResponseEntity::ok)
                 .defaultIfEmpty(ResponseEntity.notFound().build());
     }
+
+    @Override
+    public Mono<ResponseEntity<Customer>> findByPhone(String phone, ServerWebExchange exchange) {
+        return service.findByPhone(phone)
+                .map(ResponseEntity::ok)
+                .defaultIfEmpty(ResponseEntity.notFound().build());
+    }
 }

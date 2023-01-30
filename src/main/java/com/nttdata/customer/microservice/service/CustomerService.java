@@ -9,4 +9,5 @@ public interface CustomerService {
     Mono<Customer> findByDocument(String document);
     Mono<Customer> update(Mono<Customer> customer, String id);
     Mono<Void> deleteById(String id);
+    Mono<Customer> findByPhone(String phone);
 }

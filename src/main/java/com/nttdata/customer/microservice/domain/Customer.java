@@ -21,7 +21,10 @@ public class Customer {
     private Business business;
     @Indexed(unique = true)
     private String email;
+    @Indexed(unique = true, sparse = true)
     private String phone;
+    @Indexed(unique = true, sparse = true)
+    private String imei;
     @CreatedDate
     private Instant createdAt;
     @LastModifiedDate

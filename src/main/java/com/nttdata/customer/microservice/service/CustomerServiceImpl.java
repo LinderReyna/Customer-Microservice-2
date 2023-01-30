@@ -66,4 +66,10 @@ public class CustomerServiceImpl implements CustomerService{
                 .map(mapper::toDocument)
                 .flatMap(repository::delete);
     }
+
+    @Override
+    public Mono<Customer> findByPhone(String phone) {
+        return repository.findFirstByPhone(phone)
+                .map(mapper::toModel);
+    }
 }
